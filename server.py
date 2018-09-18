@@ -5,7 +5,10 @@ PORT = int(sys.argv[1])
 
 class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
 
-    def do_GET(self):
+    def do_POST(self):
+        content_length = int(self.headers['Content-length'])
+        post_data = self.rfile.read(content_length)
+        print(post_data)
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
@@ -21,7 +24,7 @@ with open('own_board.txt', 'r') as file:
             break
         own_board.append(list(line))
 
-def run(server_class = HTTPServer, handler_class = BaseHTTPRequestHandler):
+def run(server_class = HTTPServer, handler_class = BattleshipHTTPRequestHandler):
     server_address = ('', PORT)
     httpd = server_class(server_address, handler_class)
     httpd.serve_forever()
