@@ -3,6 +3,12 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 PORT = int(sys.argv[1])
 
+class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
+
+    def do_POST(self):
+        self.send_response(200)
+        self.end_headers()
+        
 #init own board
 own_board = []
 
