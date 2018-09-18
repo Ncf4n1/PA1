@@ -30,12 +30,16 @@ conn.request("POST", "/", "x=" + x + "&y=" + y)
 #Receive response
 res = conn.getresponse()
 print(res.status, res.reason)
-print(res.read())
+mess = res.read().decode('utf-8')
 
 #result from server, modify opponent board with hit or miss
-hit = True
-if(hit):
+if mess == "hit":
     opp_boa[int(y)-1][int(x)-1] = 'H'
+elif mess == "sink":
+    opp_boa[int(y)-1][int(x)-1] = 'S'
+else:
+    opp_boa[int(y)-1][int(x)-1] = 'M'
+
 
 #copy opponent board back into file
 with open('opponent_board.txt', 'w') as f:
