@@ -30,6 +30,7 @@ conn.request("POST", "/", "x=" + x + "&y=" + y)
 #Receive response
 res = conn.getresponse()
 print(res.status, res.reason)
+print(res.read())
 
 #result from server, modify opponent board with hit or miss
 hit = True
