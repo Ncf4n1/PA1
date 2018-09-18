@@ -26,7 +26,7 @@ y = sys.argv[4]
 conn = http.client.HTTPConnection(ip+':'+port)
 
 #Send the message to the server
-conn.request("POST", "/", "X="+x+"&Y="+y)
+conn.request("GET", "/")
 #Receive response
 res = conn.getresponse()
 print(res.status, res.reason)
