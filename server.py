@@ -7,8 +7,9 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         self.send_response(200)
+        self.send_header('Content-type', 'text/html')
         self.end_headers()
-        
+
 #init own board
 own_board = []
 
