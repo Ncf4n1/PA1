@@ -33,8 +33,8 @@ print(res.status, res.reason)
 mess = res.read().decode('utf-8')
 #look for relevent info in response
 match = re.findall('([0,1])|([0,D,S,R,B,C])', mess)
-hit = match[1]
-sink = match[2]
+hit = match[0][0]
+sink = match[1][1]
 
 #result from server, modify opponent board with hit, sink, or miss
 if hit == "1":
