@@ -39,19 +39,19 @@ sink = match[1][1]
 #result from server, modify opponent board with hit, sink, or miss
 if hit == "1":
     if sink == "D":
-        opp_boa[int(y)][int(x)] = 'S'
+        opp_boa[int(y)][int(x)] = 'H'
         print("You sunk the Destroyer!")
     elif sink == "S":
-        opp_boa[int(y)][int(x)] = 'S'
+        opp_boa[int(y)][int(x)] = 'H'
         print("You sunk the Submarine!")
     elif sink == "R":
-        opp_boa[int(y)][int(x)] = 'S'
+        opp_boa[int(y)][int(x)] = 'H'
         print("You sunk the Cruiser!")
     elif sink == "B":
-        opp_boa[int(y)][int(x)] = 'S'
+        opp_boa[int(y)][int(x)] = 'H'
         print("You sunk the Battleship!")
     elif sink == "C":
-        opp_boa[int(y)][int(x)] = 'S'
+        opp_boa[int(y)][int(x)] = 'H'
         print("You sunk the Carrier!")
     else:
         opp_boa[int(y)][int(x)] = 'H'
