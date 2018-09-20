@@ -32,28 +32,28 @@ res = conn.getresponse()
 print(res.status, res.reason)
 mess = res.read().decode('utf-8')
 #look for relevent info in response
-match = re.search('hit=(.*)&sink=(.*)', mess)
+match = re.search('hit=(.*)\&sink=(.*)', mess)
 hit = match.group(1)
 sink = match.group(2)
 
 #result from server, modify opponent board with hit, sink, or miss
 if hit == "1":
-    if sink == "D"
+    if sink == "D":
         opp_boa[int(y)][int(x)] = 'S'
         print("You sunk the Destroyer!")
-    elif sink == "S"
+    elif sink == "S":
         opp_boa[int(y)][int(x)] = 'S'
         print("You sunk the Submarine!")
-    elif sink == "R"
+    elif sink == "R":
         opp_boa[int(y)][int(x)] = 'S'
         print("You sunk the Cruiser!")
-    elif sink == "B"
+    elif sink == "B":
         opp_boa[int(y)][int(x)] = 'S'
         print("You sunk the Battleship!")
-    elif sink == "C"
+    elif sink == "C":
         opp_boa[int(y)][int(x)] = 'S'
         print("You sunk the Carrier!")
-    else
+    else:
         opp_boa[int(y)][int(x)] = 'H'
         print("You hit something!")
 else:
