@@ -64,6 +64,7 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
         # First use regex to get the coordinates from the fire message
         content_length = int(self.headers['Content-length'])
         post_data = self.rfile.read(content_length).decode('utf-8')
+        print(post_data)
         coord_list = re.findall(r'\d+', str(post_data))
 
         # Check if the coordinates are formatted correctly
