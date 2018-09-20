@@ -1,3 +1,7 @@
+# Logan Vining & Glen Johnson
+# Battleship Network Application PA1
+# September 20, 2018
+
 import sys      # Used to get Command Line Arguments
 import re       # Used for Coordinates Regex
 
@@ -14,7 +18,7 @@ SUBMARINE = 0
 CRUISER = 0
 DESTROYER = 0
 
-#init own board
+#initialize own board
 own_board = []
 
 # Function to initialize the player's own_board
@@ -32,10 +36,13 @@ def init_board():
 # Class that handles incoming fire messages from client
 class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
 
+    # Function to handle incoming HTTP GET Messages
     def do_GET(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
+
+        # Statements to print own_board and opponent_board to a web browser
         if(self.path == "/opponent_board.html"):
             with open('opponent_board.txt', 'r') as f:
                 while True:
@@ -53,10 +60,13 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
 
     # Function called when POST message received
     def do_POST(self):
+
+        # First use regex to get the coordinates from the fire message
         content_length = int(self.headers['Content-length'])
         post_data = self.rfile.read(content_length).decode('utf-8')
         coord_list = re.findall(r'\d+', str(post_data))
 
+        # Check if the coordinates are formatted correctly
         if len(coord_list) != 2:
             self.send_response(400)
             self.end_headers()
@@ -64,14 +74,19 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
             x = int(coord_list[0])
             y = int(coord_list[1])
 
+            # Check if the coordinates are out of index range
             if ( (x > 9 or y > 9) or (x < 0 or y < 0) ):
                 self.send_response(404)
                 self.end_headers()
+
+            # Then check if the coordinates were already sent
             elif ( own_board[y][x] == 'H' or own_board[y][x] == 'M'):
                 self.send_response(410)
                 self.end_headers()
             else:
                 hit = 0
+
+                # Determine if a ship was hit, and if so, which one
                 if own_board[y][x] != '_':
                     hit = 1
                     if own_board[y][x] == 'C':
@@ -98,6 +113,7 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
                     own_board[y][x] = 'M'
 
 
+                # Update own_board with opponents hits and misses
                 with open('own_board.txt', 'w') as f:
                     for y in range(len(own_board)):
                         for x in range(len(own_board[y])):
@@ -107,6 +123,7 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
 
+                # Format and return a hit (and possibly sink) message
                 message = "hit=" + str(hit)
 
                 message_add = '\&sink=0'
@@ -126,6 +143,7 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
                     message_add = '\&sink=D'
                     DESTROYER += 1
 
+                # Send backt the return message to the client
                 message = (message + message_add).encode('utf-8')
                 print(message.decode('utf-8'))
                 self.wfile.write(bytes(message))

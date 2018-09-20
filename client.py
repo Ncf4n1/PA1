@@ -1,13 +1,13 @@
 #!/usr/bin/python3
+# Logan Vining & Glen Johnson
+# Battleship Network Application PA1
+# September 20, 2018
 
 import sys, http.client, re
 
-#Print statements to show input values
-#print ('Server IP: ', sys.argv[1])
 ip = sys.argv[1]
-#print ('Server Port: ', sys.argv[2])
+
 port = sys.argv[2]
-#print ('Salvo Coordinates: ', sys.argv[3], ', ', sys.argv[4])
 
 #init opponent board
 opp_boa = []
