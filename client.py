@@ -32,7 +32,7 @@ res = conn.getresponse()
 print(res.status, res.reason)
 mess = res.read().decode('utf-8')
 #look for relevent info in response
-match = re.findall('hit=(.*)\&sink=(.*)', mess)
+match = re.findall('([0,1])|([0,D,S,R,B,C])', mess)
 hit = match[1]
 sink = match[2]
 
