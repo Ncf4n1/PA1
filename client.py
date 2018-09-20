@@ -3,11 +3,11 @@
 import sys, http.client, re
 
 #Print statements to show input values
-print ('Server IP: ', sys.argv[1])
+#print ('Server IP: ', sys.argv[1])
 ip = sys.argv[1]
-print ('Server Port: ', sys.argv[2])
+#print ('Server Port: ', sys.argv[2])
 port = sys.argv[2]
-print ('Salvo Coordinates: ', sys.argv[3], ', ', sys.argv[4])
+#print ('Salvo Coordinates: ', sys.argv[3], ', ', sys.argv[4])
 
 #init opponent board
 opp_boa = []
@@ -29,36 +29,39 @@ conn = http.client.HTTPConnection(ip + ':' + port)
 conn.request("POST", "/", "x=" + x + "&y=" + y)
 #Receive response
 res = conn.getresponse()
-print(res.status, res.reason)
-mess = res.read().decode('utf-8')
-#look for relevent info in response
-match = re.findall('([0,1])|([0,D,S,R,B,C])', mess)
-hit = match[0][0]
-sink = match[1][1]
+#Check if it was a good request
+if(res.status == 200):
+    mess = res.read().decode('utf-8')
+    #look for relevent info in response
+    match = re.findall('([0,1])|([0,D,S,R,B,C])', mess)
+    hit = match[0][0]
+    sink = match[1][1]
 
-#result from server, modify opponent board with hit, sink, or miss
-if hit == "1":
-    if sink == "D":
-        opp_boa[int(y)][int(x)] = 'H'
-        print("You sunk the Destroyer!")
-    elif sink == "S":
-        opp_boa[int(y)][int(x)] = 'H'
-        print("You sunk the Submarine!")
-    elif sink == "R":
-        opp_boa[int(y)][int(x)] = 'H'
-        print("You sunk the Cruiser!")
-    elif sink == "B":
-        opp_boa[int(y)][int(x)] = 'H'
-        print("You sunk the Battleship!")
-    elif sink == "C":
-        opp_boa[int(y)][int(x)] = 'H'
-        print("You sunk the Carrier!")
+    #result from server, modify opponent board with hit, sink, or miss
+    if hit == "1":
+        if sink == "D":
+            opp_boa[int(y)][int(x)] = 'H'
+            print("You sunk the Destroyer!")
+        elif sink == "S":
+            opp_boa[int(y)][int(x)] = 'H'
+            print("You sunk the Submarine!")
+        elif sink == "R":
+            opp_boa[int(y)][int(x)] = 'H'
+            print("You sunk the Cruiser!")
+        elif sink == "B":
+            opp_boa[int(y)][int(x)] = 'H'
+            print("You sunk the Battleship!")
+        elif sink == "C":
+            opp_boa[int(y)][int(x)] = 'H'
+            print("You sunk the Carrier!")
+        else:
+            opp_boa[int(y)][int(x)] = 'H'
+            print("You hit something!")
     else:
-        opp_boa[int(y)][int(x)] = 'H'
-        print("You hit something!")
+        opp_boa[int(y)][int(x)] = 'M'
+        print("You missed!")
 else:
-    opp_boa[int(y)][int(x)] = 'M'
-    print("You missed!")
+    print(res.status, res.reason)
 
 
 #copy opponent board back into file
