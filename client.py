@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sys, http.client
+import sys, http.client, re
 
 #Print statements to show input values
 print ('Server IP: ', sys.argv[1])
@@ -31,14 +31,34 @@ conn.request("POST", "/", "x=" + x + "&y=" + y)
 res = conn.getresponse()
 print(res.status, res.reason)
 mess = res.read().decode('utf-8')
+#look for relevent info in response
+match = re.search('hit=(.*)&sink=(.*)', mess)
+hit = match.group(1)
+sink = match.group(2)
 
 #result from server, modify opponent board with hit or miss
-if mess == "hit":
-    opp_boa[int(y)-1][int(x)-1] = 'H'
-elif mess == "sink":
-    opp_boa[int(y)-1][int(x)-1] = 'S'
+if hit == "1":
+    if sink == "D"
+        opp_boa[int(y)-1][int(x)-1] = 'S'
+        print("You sunk the Destroyer!")
+    elif sink == "S"
+        opp_boa[int(y)-1][int(x)-1] = 'S'
+        print("You sunk the Submarine!")
+    elif sink == "R"
+        opp_boa[int(y)-1][int(x)-1] = 'S'
+        print("You sunk the Cruiser!")
+    elif sink == "B"
+        opp_boa[int(y)-1][int(x)-1] = 'S'
+        print("You sunk the Battleship!")
+    elif sink == "C"
+        opp_boa[int(y)-1][int(x)-1] = 'S'
+        print("You sunk the Carrier!")
+    else
+        opp_boa[int(y)-1][int(x)-1] = 'H'
+        print("You hit something!")
 else:
     opp_boa[int(y)-1][int(x)-1] = 'M'
+    print("You missed!")
 
 
 #copy opponent board back into file
