@@ -2,6 +2,7 @@
 # Logan Vining & Glen Johnson
 # Battleship Network Application PA1
 # September 20, 2018
+# YouTube Video Link: https://youtu.be/DZxl4h9Yejg
 
 import sys, http.client, re
 
