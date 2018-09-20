@@ -44,7 +44,6 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
         coord_list = re.findall(r'\d+', str(post_data))
 
         if len(coord_list) != 2:
-            print('length' + str(len(coord_list)))
             self.send_response(400)
             self.end_headers()
         else:
