@@ -36,6 +36,20 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
+        if(self.path == "/opponent_board.html"):
+            with open('opponent_board.txt', 'r') as f:
+                while True:
+                    c = f.readline()
+                    self.wfile.write(bytes("<p>" + c + "<p>", "utf-8"))
+                    if not c:
+                        break
+        elif(self.path == "/own_board.html"):
+            with open('own_board.txt', 'r') as f:
+                while True:
+                    c = f.readline()
+                    self.wfile.write(bytes("<p>" + c + "<p>", "utf-8"))
+                    if not c:
+                        break
 
     # Function called when POST message received
     def do_POST(self):
