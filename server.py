@@ -7,6 +7,13 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 # Get Port from Command Line Argument
 PORT = int(sys.argv[1])
 
+# initialize counters to track sinking of ships
+CARRIER = 0
+BATTLESHIP = 0
+SUBMARINE = 0
+CRUISER = 0
+DESTROYER = 0
+
 #init own board
 own_board = []
 
@@ -37,12 +44,42 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
         if own_board[y][x] != '_':
             hit = 1
 
+            if own_board[y][x] == 'C':
+                global CARRIER
+                CARRIER += 1
+            elif own_board[y][x] == 'B':
+                global BATTLESHIP
+                BATTLESHIP += 1
+            elif own_board[y][x] == 'R':
+                global CRUISER
+                CRUISER += 1
+            elif own_board[y][x] == 'S':
+                global SUBMARINE
+                SUBMARINE += 1
+            elif own_board[y][x] == 'D':
+                global DESTROYER
+                DESTROYER += 1
+
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-        message = ("hit=" + str(hit)).encode('utf-8')
-        print(hit)
+        message = "hit=" + str(hit)
+
+        message_add = '\&sink=0'
+        if CARRIER == 5:
+            message_add = '\&sink=C'
+        elif BATTLESHIP == 4:
+            message_add = '\&sink=B'
+        elif CRUISER == 3:
+            message_add = '\&sink=R'
+        elif SUBMARINE == 3:
+            message_add = '\&sink=S'
+        elif DESTROYER == 2:
+            message_add = '\&sink=D'
+
+        message = (message + message_add).encode('utf-8')
+        print(message.decode('utf-8'))
         self.wfile.write(bytes(message))
 
 
