@@ -32,6 +32,11 @@ def init_board():
 # Class that handles incoming fire messages from client
 class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
 
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+
     # Function called when POST message received
     def do_POST(self):
         content_length = int(self.headers['Content-length'])
@@ -69,14 +74,19 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
         message_add = '\&sink=0'
         if CARRIER == 5:
             message_add = '\&sink=C'
+            CARRIER += 1
         elif BATTLESHIP == 4:
             message_add = '\&sink=B'
+            BATTLESHIP += 1
         elif CRUISER == 3:
             message_add = '\&sink=R'
+            CRUISER += 1
         elif SUBMARINE == 3:
             message_add = '\&sink=S'
+            SUBMARINE += 1
         elif DESTROYER == 2:
             message_add = '\&sink=D'
+            DESTROYER += 1
 
         message = (message + message_add).encode('utf-8')
         print(message.decode('utf-8'))
@@ -87,11 +97,7 @@ class BattleshipHTTPRequestHandler(BaseHTTPRequestHandler):
 def run(server_class = HTTPServer, handler_class = BattleshipHTTPRequestHandler):
     server_address = ('', PORT)
     httpd = server_class(server_address, handler_class)
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        pass
-    httpd.server_close()
+    httpd.serve_forever()
 
 init_board()
 run()
